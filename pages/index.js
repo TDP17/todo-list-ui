@@ -11,7 +11,7 @@ const App = () => {
   const [warning, setWarning] = useState(''); // warning state on form submit
 
   const logout = async () => {
-    const response = await fetch('process.env.API_URLauth/logout', {
+    const response = await fetch(`${process.env.API_URL}auth/logout`, {
       method: 'GET',
       mode: 'cors',
       credentials: 'include',
@@ -24,7 +24,7 @@ const App = () => {
 
   useEffect(() => {
     const getJWT = async () => {
-      const response = await fetch('process.env.API_URLauth/getJWT', {
+      const response = await fetch(`${process.env.API_URL}auth/getJWT`, {
         method: 'GET',
         mode: 'cors',
         credentials: 'include',

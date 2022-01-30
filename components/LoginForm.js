@@ -12,7 +12,7 @@ const LoginForm = props => {
         e.preventDefault();
         const data = { username: loginUsername, password: loginPassword };
 
-        const response = await fetch('process.env.API_URLauth/login', {
+        const response = await fetch(`${process.env.API_URL}auth/login`, {
             method: 'POST',
             mode: 'cors',
             credentials: 'include',

@@ -26,6 +26,7 @@ const RegisterForm = props => {
         formIsValid = true;
 
     const handleRegister = async (e) => {
+        console.log(process.env.API_URL);
         e.preventDefault();
         const data = { username: registerUsername, password: registerPassword, confirmPassword: registerConfirmPassword };
 

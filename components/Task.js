@@ -6,7 +6,7 @@ const Task = props => {
   const [editMode, setEditMode] = useState(false);
 
   const deleteTask = async () => {
-    const response = await fetch(`${process.env.API_URL}task/delete/${props.id}`, {
+    const response = await fetch(`${process.env.NEXT_PUBLIC_API_URL}task/delete/${props.id}`, {
       method: 'DELETE',
       mode: 'cors',
       credentials: 'include',
@@ -23,7 +23,7 @@ const Task = props => {
   const editTask = async () => {
     if (editMode) {
       const data = { label: taskLabel };
-      const response = await fetch(`${process.env.API_URL}task/edit/${props.id}`, {
+      const response = await fetch(`${process.env.NEXT_PUBLIC_API_URL}task/edit/${props.id}`, {
         method: 'POST',
         mode: 'cors',
         credentials: 'include',

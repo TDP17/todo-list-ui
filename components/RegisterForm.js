@@ -26,11 +26,11 @@ const RegisterForm = props => {
         formIsValid = true;
 
     const handleRegister = async (e) => {
-        console.log(process.env.API_URL);
+        console.log(process.env.NEXT_PUBLIC_API_URL);
         e.preventDefault();
         const data = { username: registerUsername, password: registerPassword, confirmPassword: registerConfirmPassword };
 
-        const response = await fetch(`${process.env.API_URL}auth/register`, {
+        const response = await fetch(`${process.env.NEXT_PUBLIC_API_URL}auth/register`, {
             method: 'POST',
             mode: 'cors',
             credentials: 'include',

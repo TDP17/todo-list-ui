@@ -15,7 +15,7 @@ const List = props => {
 
     useEffect(() => {
         const getInitialTasks = async () => {
-            const initialTasksReq = await fetch(`${process.env.API_URL}task/get`, {
+            const initialTasksReq = await fetch(`${process.env.NEXT_PUBLIC_API_URL}task/get`, {
                 method: 'GET',
                 mode: 'cors',
                 credentials: 'include',
@@ -31,7 +31,7 @@ const List = props => {
 
         const data = { label: newTaskLabel, priority: priority };
 
-        const response = await fetch(`${process.env.API_URL}task/create`, {
+        const response = await fetch(`${process.env.NEXT_PUBLIC_API_URL}task/create`, {
             method: 'POST',
             mode: 'cors',
             credentials: 'include',

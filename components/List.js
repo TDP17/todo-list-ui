@@ -1,11 +1,16 @@
 import { useEffect, useState } from 'react';
-import Tasks from './Tasks';
+import DateTimePicker from 'react-datetime-picker/dist/entry.nostyle'; 
+import 'react-calendar/dist/Calendar.css'; 
+import 'react-clock/dist/Clock.css'; 
+import 'react-datetime-picker/dist/DateTimePicker.css';
 
+import Tasks from './Tasks';
 import styles from '../styles/List.module.css';
 
 const List = props => {
     const [newTaskLabel, setNewTaskLabel] = useState('');
     const [priority, setPriority] = useState(2); // 2 high, 1 medium, 0 low
+    const [endTime, setEndTime] = useState(null);
 
     const [tasks, setTasks] = useState([]);
 
@@ -15,7 +20,7 @@ const List = props => {
 
     useEffect(() => {
         const getInitialTasks = async () => {
-            const initialTasksReq = await fetch(`${process.env.NEXT_PUBLIC_API_URL}task/get`, {
+            const initialTasksReq = await fetch(`http://localhost:5000/task/get`, {
                 method: 'GET',
                 mode: 'cors',
                 credentials: 'include',
@@ -28,10 +33,10 @@ const List = props => {
 
     const addTask = async (e) => {
         e.preventDefault();
-
+        console.log(endTime);
         const data = { label: newTaskLabel, priority: priority };
 
-        const response = await fetch(`${process.env.NEXT_PUBLIC_API_URL}task/create`, {
+        const response = await fetch(`http://localhost:5000/task/create`, {
             method: 'POST',
             mode: 'cors',
             credentials: 'include',
@@ -41,7 +46,11 @@ const List = props => {
             body: JSON.stringify(data)
         });
         if (response.ok)
+        {
+            const res = await response.json();
+            data.id = res.id;
             setTasks([...tasks, data]);
+        }
         if (response.status === 401)
             props.logout();
 
@@ -70,6 +79,7 @@ const List = props => {
                     <option value="medium">Medium</option>
                     <option value="low">Low</option>
                 </select>
+                <DateTimePicker onChange={(newVal) => setEndTime(newVal)} value={endTime} minDate={new Date()}/>
                 <button type="submit">&#8702;</button>
             </form>
             <header className={styles.header}>

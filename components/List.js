@@ -1,21 +1,25 @@
 import { useEffect, useState } from 'react';
-import Tasks from './Tasks';
 
+import NewTaskModal from './NewTaskModal';
+import Tasks from './Tasks';
+import ExpiredTasks from './ExpiredTasks';
 import styles from '../styles/List.module.css';
 
 const List = props => {
-    const [newTaskLabel, setNewTaskLabel] = useState('');
-    const [priority, setPriority] = useState(2); // 2 high, 1 medium, 0 low
+    const [modal, setModal] = useState(false);
+    const [expired, setExpired] = useState(false);
 
     const [tasks, setTasks] = useState([]);
 
-    let highTasks = tasks.filter(task => task.priority === 2);
-    let mediumTasks = tasks.filter(task => task.priority === 1);
-    let lowTasks = tasks.filter(task => task.priority === 0);
+    const expiredTasks = tasks.filter(task => task.endTime < new Date().valueOf());
+    const unexpiredTasks = tasks.filter(task => task.endTime >= new Date().valueOf());
+    const highTasks = unexpiredTasks.filter(task => task.priority === 2);
+    const mediumTasks = unexpiredTasks.filter(task => task.priority === 1);
+    const lowTasks = unexpiredTasks.filter(task => task.priority === 0);
 
     useEffect(() => {
         const getInitialTasks = async () => {
-            const initialTasksReq = await fetch(`${process.env.NEXT_PUBLIC_API_URL}task/get`, {
+            const initialTasksReq = await fetch(`https://to-do-list-oi.herokuapp.com/task/get`, {
                 method: 'GET',
                 mode: 'cors',
                 credentials: 'include',
@@ -26,52 +30,14 @@ const List = props => {
         getInitialTasks();
     }, []);
 
-    const addTask = async (e) => {
-        e.preventDefault();
-
-        const data = { label: newTaskLabel, priority: priority };
-
-        const response = await fetch(`${process.env.NEXT_PUBLIC_API_URL}task/create`, {
-            method: 'POST',
-            mode: 'cors',
-            credentials: 'include',
-            headers: {
-                'Content-Type': 'application/json'
-            },
-            body: JSON.stringify(data)
-        });
-        if (response.ok)
-            setTasks([...tasks, data]);
-        if (response.status === 401)
-            props.logout();
-
-        setNewTaskLabel('');
-    }
-
-    const handleDescription = (e) => {
-        setNewTaskLabel(e.target.value);
-    }
-
-    const handlePriority = (e) => {
-        if (e.target.value === 'high')
-            setPriority(2);
-        else if (e.target.value === 'medium')
-            setPriority(1);
-        else if (e.target.value === 'low')
-            setPriority(0);
-    }
-
     return (
         <div className={styles.container}>
-            <form className={styles.taskForm} onSubmit={addTask}>
-                <input type="text" placeholder="Enter task label here" onChange={handleDescription} value={newTaskLabel} />
-                <select name="cars" id="cars" form="carform" onChange={handlePriority}>
-                    <option value="high">High</option>
-                    <option value="medium">Medium</option>
-                    <option value="low">Low</option>
-                </select>
-                <button type="submit">&#8702;</button>
-            </form>
+            <div className={modal ? styles.overlayOn : styles.overlayOff}>
+                <NewTaskModal tasks={tasks} setTasks={setTasks} modal={modal} setModal={setModal} logout={props.logout} />
+            </div>
+            <div className={expired ? styles.overlayOn : styles.overlayOff}>
+                <ExpiredTasks tasks={expiredTasks} setTasks={setTasks} expired={expired} setExpired={setExpired} logout={props.logout} />
+            </div>
             <header className={styles.header}>
                 <div className={styles.headerTab} style={{ backgroundColor: "#52BFBF" }}>
                     <div className={styles.logout} onClick={props.logout}>&#8592;</div>
@@ -85,6 +51,10 @@ const List = props => {
                 </div>
             </header>
             <Tasks highTasks={highTasks} mediumTasks={mediumTasks} lowTasks={lowTasks} setTasks={setTasks} logout={props.logout} />
+            <section className={styles.utilityContainer}>
+                <button className={styles.utilityButton} onClick={() => setModal(true)}>+</button>
+                <button className={styles.utilityButton} onClick={() => setExpired(prev => !prev)}>!!</button>
+            </section>
         </div>
     )
 }

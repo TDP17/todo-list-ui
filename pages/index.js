@@ -11,7 +11,7 @@ const App = () => {
   const [warning, setWarning] = useState(''); // warning state on form submit
 
   const logout = async () => {
-    const response = await fetch(`http://localhost:5000/auth/logout`, {
+    const response = await fetch(`https://to-do-list-oi.herokuapp.com/auth/logout`, {
       method: 'GET',
       mode: 'cors',
       credentials: 'include',
@@ -23,7 +23,7 @@ const App = () => {
 
   useEffect(() => {
     const getJWT = async () => {
-      const response = await fetch(`http://localhost:5000/auth/getJWT`, {
+      const response = await fetch(`https://to-do-list-oi.herokuapp.com/auth/getJWT`, {
         method: 'GET',
         mode: 'cors',
         credentials: 'include',

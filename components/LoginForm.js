@@ -12,7 +12,7 @@ const LoginForm = props => {
         e.preventDefault();
         const data = { username: loginUsername, password: loginPassword };
 
-        const response = await fetch(`http://localhost:5000/auth/login`, {
+        const response = await fetch(`https://to-do-list-oi.herokuapp.com/auth/login`, {
             method: 'POST',
             mode: 'cors',
             credentials: 'include',

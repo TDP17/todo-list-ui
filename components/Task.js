@@ -6,7 +6,7 @@ const Task = props => {
   const [editMode, setEditMode] = useState(false);
 
   const deleteTask = async () => {
-    const response = await fetch(`http://localhost:5000/task/delete/${props.id}`, {
+    const response = await fetch(`https://to-do-list-oi.herokuapp.com/task/delete/${props.id}`, {
       method: 'DELETE',
       mode: 'cors',
       credentials: 'include',
@@ -23,7 +23,7 @@ const Task = props => {
   const editTask = async () => {
     if (editMode) {
       const data = { label: taskLabel };
-      const response = await fetch(`http://localhost:5000/task/edit/${props.id}`, {
+      const response = await fetch(`https://to-do-list-oi.herokuapp.com/task/edit/${props.id}`, {
         method: 'POST',
         mode: 'cors',
         credentials: 'include',

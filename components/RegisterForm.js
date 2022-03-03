@@ -29,7 +29,7 @@ const RegisterForm = props => {
         e.preventDefault();
         const data = { username: registerUsername, password: registerPassword, confirmPassword: registerConfirmPassword };
 
-        const response = await fetch(`http://localhost:5000/auth/register`, {
+        const response = await fetch(`https://to-do-list-oi.herokuapp.com/auth/register`, {
             method: 'POST',
             mode: 'cors',
             credentials: 'include',

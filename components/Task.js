@@ -50,12 +50,21 @@ const Task = props => {
     setTaskLabel(e.target.value)
   }
 
+  const dateFunction = (ms) => {
+    const date = new Date(+ms);
+    return date.toLocaleString();
+  }
+
   return (
-    <div className={styles.taskContainer}>
-      {editMode ? <textarea type="text" value={taskLabel} onChange={changeLabel}></textarea> : props.label}
+    <div className={styles.taskContainer} style={{ backgroundColor: `${props.expired ? "#6C757D" : "white"}`, color: `${props.expired ? "white" : "black"}` }}>
+      <section>
+        {editMode ? <textarea type="text" value={taskLabel} onChange={changeLabel}></textarea> : props.label}
+        <br />
+        <small style={{ color: `${props.expired ? "white" : "gray"}`, fontSize: "0.6rem" }}> {dateFunction(props.endTime)}</small>
+      </section>
       <div className={styles.taskButtonContainer}>
-        <button style={{ color: "red" }} className={styles.taskButton} onClick={deleteTask}>&#128711;</button>
-        <button style={{ color: "blue" }} className={styles.taskButton} onClick={editTask}>{editMode ? <>&#10003;</> : <>&#128394;</>}</button>
+        <button style={{ color: `${props.expired ? "white" : "red"}` }} className={styles.taskButton} onClick={deleteTask}>&#128711;</button>
+        <button style={{ color: `${props.expired ? "white" : "blue"}` }} className={styles.taskButton} onClick={editTask}>{editMode ? <>&#10003;</> : <>&#128394;</>}</button>
       </div>
     </div>
   );

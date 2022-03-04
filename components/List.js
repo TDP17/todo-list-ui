@@ -52,8 +52,8 @@ const List = props => {
             </header>
             <Tasks highTasks={highTasks} mediumTasks={mediumTasks} lowTasks={lowTasks} setTasks={setTasks} logout={props.logout} />
             <section className={styles.utilityContainer}>
-                <button className={styles.utilityButton} onClick={() => setModal(true)}>+</button>
-                <button className={styles.utilityButton} onClick={() => setExpired(prev => !prev)}>!!</button>
+                <button className={styles.utilityButton} onClick={() => setModal(true)}>&#x2B;</button>
+                <button style={{ backgroundColor: `${expiredTasks.length !== 0 ? "#DC3545" : "white"}`, color: `${expiredTasks.length !== 0 ? "white" : "black"}` }} className={styles.utilityButton} onClick={() => setExpired(prev => !prev)}>{!expired ? "!!" : <>&#10006;</>}</button>
             </section>
         </div>
     )

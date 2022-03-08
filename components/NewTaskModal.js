@@ -71,7 +71,7 @@ const NewTaskModal = props => {
                     <Datetime onChange={newVal => setEndTime(newVal)} initialValue={endTime} value={endTime} minDate={new Date()} />
                 </section>
                 <section>
-                    <button style={{ backgroundColor: "#337AB7" }} className={styles.modalEndButton} onClick={clearModal}>Clear</button>
+                    <button style={{ backgroundColor: "#337AB7" }} className={styles.modalEndButton} onClick={clearModal} type="button">Clear</button>
                     <button style={{ backgroundColor: "#5CB85C" }} className={styles.modalEndButton} type="submit">Confirm</button>
                 </section>
             </form>
